@@ -1,0 +1,78 @@
+{
+  "name": "wx-oa-sdk",
+  "version": "0.0.7",
+  "packageManager": "pnpm@8.7.5",
+  "description": "微信公众号SDK",
+  "type": "module",
+  "author": "BaoBao <1727283040@qq.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/bao-io/wx-oa-sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bao-io/wx-oa-sdk.git"
+  },
+  "bugs": "https://github.com/bao-io/wx-oa-sdk/issues",
+  "keywords": [
+    "微信公众号",
+    "微信公众号SDK",
+    "微信公众号开发"
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "test": "vitest",
+    "check": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build",
+    "release": "bumpp && pnpm publish",
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "simple-git-hooks",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@bbao/prettier-config": "^0.0.2",
+    "@types/sha1": "^1.1.5",
+    "@types/xml2js": "^0.4.14",
+    "@types/node": "^20.10.5",
+    "bumpp": "^9.2.1",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.1",
+    "simple-git-hooks": "^2.9.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0"
+  },
+  "dependencies": {
+    "@types/xml2js": "^0.4.14",
+    "axios": "^1.6.2",
+    "sha1": "^1.1.1",
+    "xml2js": "^0.6.2"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged && pnpm check"
+  },
+  "lint-staged": {
+    "*.{js,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "engines": {
+    "node": ">=16.20.0"
+  },
+  "prettier": "@bbao/prettier-config"
+}
