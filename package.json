@@ -37,9 +37,8 @@
     "check": "tsc --noEmit",
     "prepublishOnly": "pnpm run build",
     "release": "bumpp && pnpm publish",
-    "preinstall": "npx only-allow pnpm",
-    "postinstall": "simple-git-hooks",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "simple-git-hooks"
   },
   "devDependencies": {
     "@bbao/prettier-config": "^0.0.2",
