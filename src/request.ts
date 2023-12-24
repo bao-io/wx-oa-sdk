@@ -10,7 +10,7 @@ http.interceptors.request.use(res => {
     url.searchParams.has('access_token') &&
     url.searchParams.get('access_token') === 'undefined'
   ) {
-    return Promise.reject('access_token is required')
+    throw new Error('access_token is required')
   }
   return res
 })
