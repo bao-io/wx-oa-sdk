@@ -1,3 +1,4 @@
-import { WxSdk } from './wx'
+import { WxSdk } from './sdk'
+export * from './types'
 export default WxSdk
 export { WxSdk }
