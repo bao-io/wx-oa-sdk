@@ -1,6 +1,6 @@
 {
   "name": "wx-oa-sdk",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "packageManager": "pnpm@8.7.5",
   "description": "微信公众号SDK",
   "type": "module",
