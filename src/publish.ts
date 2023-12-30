@@ -1,5 +1,4 @@
 import { WxConfig } from './types'
-import http from './request'
 import { BaseResponse } from './types/response'
 import {
   BatchGetArticleBody,
@@ -11,18 +10,21 @@ import {
   PublishSubmitResponse,
   GetPublishResponse
 } from './types/publish'
+import { WxRequest } from './request'
 
-export class WxPublishApi {
-  constructor(private config: WxConfig) {}
+export class WxPublishApi extends WxRequest {
+  constructor(config: WxConfig) {
+    super(config)
+  }
 
   /**
    * 发布接口
    * @param {PublishSubmitBody} body 请求体
    * @returns {PublishSubmitResponse}
    */
-  submit(body: PublishSubmitBody) {
-    return http.post<PublishSubmitResponse>(
-      `/cgi-bin/freepublish/submit?access_token=${this.config.access_token}`,
+  submitPublish(body: PublishSubmitBody) {
+    return this.AxiosPost<PublishSubmitResponse>(
+      `/cgi-bin/freepublish/submit?access_token`,
       body
     )
   }
@@ -32,9 +34,9 @@ export class WxPublishApi {
    * @param {GetPublishBody} body 请求体
    * @returns {GetPublishResponse}
    */
-  get(body: GetPublishBody) {
-    return http.post<GetPublishResponse>(
-      `/cgi-bin/freepublish/get?access_token=${this.config.access_token}`,
+  getPublish(body: GetPublishBody) {
+    return this.AxiosPost<GetPublishResponse>(
+      `/cgi-bin/freepublish/get?access_token`,
       body
     )
   }
@@ -44,9 +46,9 @@ export class WxPublishApi {
    * @param {DeletePublishBody} body 请求体
    * @returns {BaseResponse}
    */
-  delete(body: DeletePublishBody) {
-    return http.post<BaseResponse>(
-      `/cgi-bin/freepublish/delete?access_token=${this.config.access_token}`,
+  deletePublish(body: DeletePublishBody) {
+    return this.AxiosPost<BaseResponse>(
+      `/cgi-bin/freepublish/delete?access_token`,
       body
     )
   }
@@ -57,8 +59,8 @@ export class WxPublishApi {
    * @returns {GetArticleByIdResponse}
    */
   getArticleByArticleId(body: GetArticleBody) {
-    return http.post<GetArticleByIdResponse>(
-      `/cgi-bin/freepublish/getarticle?access_token=${this.config.access_token}`,
+    return this.AxiosPost<GetArticleByIdResponse>(
+      `/cgi-bin/freepublish/getarticle?access_token`,
       body
     )
   }
@@ -68,9 +70,9 @@ export class WxPublishApi {
    * @param {BatchGetArticleBody} body 请求体
    * @returns {GetArticleByIdResponse}
    */
-  batchget(body: BatchGetArticleBody) {
-    return http.post<GetArticleByIdResponse>(
-      `/cgi-bin/freepublish/batchget?access_token=${this.config.access_token}`,
+  batchGetPublish(body: BatchGetArticleBody) {
+    return this.AxiosPost<GetArticleByIdResponse>(
+      `/cgi-bin/freepublish/batchget?access_token`,
       body
     )
   }

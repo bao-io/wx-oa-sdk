@@ -5,11 +5,11 @@ import { WxMsgSchema } from './types/msg'
 export class WxMsgApi {
   /**
    * 用于解析请求体返回的stream流，并转成xml格式返回xml字符串
-   * @param stream
-   * @returns
+   * @param {Stream} stream 请求体返回的stream流
+   * @returns {string}
    */
   xmlBodyParser(stream: Stream) {
-    return new Promise((s, j) => {
+    return new Promise<string>((s, j) => {
       let xmlData = ''
       stream.on('data', data => {
         xmlData += data.toString()

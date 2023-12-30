@@ -1,5 +1,5 @@
+import { WxRequest } from './request'
 import { WxConfig } from './types'
-import http from './request'
 import { BaseResponse } from './types/response'
 import {
   BackUserBody,
@@ -21,9 +21,10 @@ import {
   UpdateTagBody
 } from './types/user'
 
-export class WxUserApi {
+export class WxUserApi extends WxRequest {
   tag: WxUserTagApi
-  constructor(private config: WxConfig) {
+  constructor(config: WxConfig) {
+    super(config)
     this.tag = new WxUserTagApi(config)
   }
 
@@ -33,8 +34,8 @@ export class WxUserApi {
    * @returns {BaseResponse}
    */
   updateRemark(body: UpdateRemarkBody) {
-    return http.post<BaseResponse>(
-      `/cgi-bin/user/info/updateremark?access_token=${this.config.access_token}`,
+    return this.post<BaseResponse>(
+      `/cgi-bin/user/info/updateremark?access_token`,
       body
     )
   }
@@ -46,8 +47,8 @@ export class WxUserApi {
    * @returns {GetUserInfoResponse}
    */
   info(openid: string, lang: 'zh_CN' | 'zh_TW' | 'en' = 'zh_CN') {
-    return http.get<GetUserInfoResponse>(
-      `/cgi-bin/user/info?access_token=${this.config.access_token}&openid=${openid}&lang=${lang}`
+    return this.AxiosGet<GetUserInfoResponse>(
+      `/cgi-bin/user/info?access_token&openid=${openid}&lang=${lang}`
     )
   }
 
@@ -57,8 +58,8 @@ export class WxUserApi {
    * @returns {GetBatchUserInfoResponse}
    */
   batchInfo(body: BatchUserInfoBody) {
-    return http.post<GetBatchUserInfoResponse>(
-      `/cgi-bin/user/info/batchget?access_token=${this.config.access_token}`,
+    return this.AxiosPost<GetBatchUserInfoResponse>(
+      `/cgi-bin/user/info/batchget?access_token`,
       body
     )
   }
@@ -69,8 +70,8 @@ export class WxUserApi {
    * @returns {GetUserListResponse}
    */
   getUserList(next_openid = '') {
-    return http.get<GetUserListResponse>(
-      `/cgi-bin/user/get?access_token=${this.config.access_token}&next_openid=${next_openid}`
+    return this.AxiosGet<GetUserListResponse>(
+      `/cgi-bin/user/get?access_token&next_openid=${next_openid}`
     )
   }
 
@@ -80,8 +81,8 @@ export class WxUserApi {
    * @returns {GetUserListResponse}
    */
   getUserBackList(body: GetUserBackListBody) {
-    return http.post<GetUserListResponse>(
-      `/cgi-bin/tags/members/getblacklist?access_token=${this.config.access_token}`,
+    return this.AxiosPost<GetUserListResponse>(
+      `/cgi-bin/tags/members/getblacklist?access_token`,
       body
     )
   }
@@ -92,8 +93,8 @@ export class WxUserApi {
    * @returns {BaseResponse}
    */
   batchBackUser(body: BackUserBody) {
-    return http.post<BaseResponse>(
-      `/cgi-bin/tags/members/batchblacklist?access_token=${this.config.access_token}`,
+    return this.AxiosPost<BaseResponse>(
+      `/cgi-bin/tags/members/batchblacklist?access_token`,
       body
     )
   }
@@ -104,15 +105,17 @@ export class WxUserApi {
    * @returns {BaseResponse}
    */
   batchUnBackUser(body: BackUserBody) {
-    return http.post<BaseResponse>(
-      `/cgi-bin/tags/members/batchunblacklist?access_token=${this.config.access_token}`,
+    return this.AxiosPost<BaseResponse>(
+      `/cgi-bin/tags/members/batchunblacklist?access_token`,
       body
     )
   }
 }
 
-class WxUserTagApi {
-  constructor(private config: WxConfig) {}
+class WxUserTagApi extends WxRequest {
+  constructor(config: WxConfig) {
+    super(config)
+  }
 
   /**
    * 创建标签
@@ -120,8 +123,8 @@ class WxUserTagApi {
    * @returns {CreateTagResponse}
    */
   create_tag(body: CreateTagBody) {
-    return http.post<CreateTagResponse>(
-      `/cgi-bin/tags/create?access_token=${this.config.access_token}`,
+    return this.AxiosPost<CreateTagResponse>(
+      `/cgi-bin/tags/create?access_token`,
       body
     )
   }
@@ -131,9 +134,7 @@ class WxUserTagApi {
    * @returns {GetTagsResponse}
    */
   get_tags() {
-    return http.get<GetTagsResponse>(
-      `/cgi-bin/tags/get?access_token=${this.config.access_token}`
-    )
+    return this.AxiosGet<GetTagsResponse>(`/cgi-bin/tags/get?access_token`)
   }
 
   /**
@@ -142,8 +143,8 @@ class WxUserTagApi {
    * @returns {BaseResponse}
    */
   update_tag(body: UpdateTagBody) {
-    return http.post<BaseResponse>(
-      `/cgi-bin/tags/update?access_token=${this.config.access_token}`,
+    return this.AxiosPost<BaseResponse>(
+      `/cgi-bin/tags/update?access_token`,
       body
     )
   }
@@ -154,8 +155,8 @@ class WxUserTagApi {
    * @returns {BaseResponse}
    */
   delete_tag(body: DeleteTagBody) {
-    return http.post<BaseResponse>(
-      `/cgi-bin/tags/delete?access_token=${this.config.access_token}`,
+    return this.AxiosPost<BaseResponse>(
+      `/cgi-bin/tags/delete?access_token`,
       body
     )
   }
@@ -166,8 +167,8 @@ class WxUserTagApi {
    * @returns {GetUserByTagResponse}
    */
   getUserByTagId(body: GetUserByTagBody) {
-    return http.post<GetUserByTagResponse>(
-      `/cgi-bin/user/tag/get?access_token=${this.config.access_token}`,
+    return this.AxiosPost<GetUserByTagResponse>(
+      `/cgi-bin/user/tag/get?access_token`,
       body
     )
   }
@@ -178,8 +179,8 @@ class WxUserTagApi {
    * @returns {BaseResponse}
    */
   batchTagging(body: BatchTagBody) {
-    return http.post<BaseResponse>(
-      `/cgi-bin/tags/members/batchtagging?access_token=${this.config.access_token}`,
+    return this.AxiosPost<BaseResponse>(
+      `/cgi-bin/tags/members/batchtagging?access_token`,
       body
     )
   }
@@ -190,8 +191,8 @@ class WxUserTagApi {
    * @returns {BaseResponse}
    */
   batchUnTagging(body: BatchTagBody) {
-    return http.post<BaseResponse>(
-      `/cgi-bin/tags/members/batchuntagging?access_token=${this.config.access_token}`,
+    return this.AxiosPost<BaseResponse>(
+      `/cgi-bin/tags/members/batchuntagging?access_token`,
       body
     )
   }
@@ -202,8 +203,8 @@ class WxUserTagApi {
    * @returns {GetTagByOpenIdResponse}
    */
   getTagByOpenId(body: GetTagByOpenIdBody) {
-    return http.post<GetTagByOpenIdResponse>(
-      `/cgi-bin/tags/getidlist?access_token=${this.config.access_token}`,
+    return this.AxiosPost<GetTagByOpenIdResponse>(
+      `/cgi-bin/tags/getidlist?access_token`,
       body
     )
   }

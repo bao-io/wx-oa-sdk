@@ -42,30 +42,17 @@ export class WxSdk {
    * 版本号
    */
   readonly version: string
-  constructor(private readonly _config: WxConfig) {
-    if (!_config.appid) throw Error('config.appid is required')
-    if (!_config.secret) throw Error('config.secret is required')
-    this._config = Object.assign({}, _config)
+  constructor(private readonly config: WxConfig) {
+    if (!config.appid) throw Error('config.appid is required')
+    if (!config.secret) throw Error('config.secret is required')
     this.version = version
-    this.base = new WxBaseApi(this._config)
-    this.open = new WxOpenApi(this._config)
-    this.menu = new WxMenuApi(this._config)
-    this.draft = new WxDraftApi(this._config)
-    this.publish = new WxPublishApi(this._config)
-    this.user = new WxUserApi(this._config)
+    this.base = new WxBaseApi(config)
+    this.open = new WxOpenApi(config)
+    this.menu = new WxMenuApi(config)
+    this.draft = new WxDraftApi(config)
+    this.publish = new WxPublishApi(config)
+    this.user = new WxUserApi(config)
     this.msg = new WxMsgApi()
-  }
-
-  get config() {
-    return this._config
-  }
-
-  /**
-   * 更新SDK配置
-   * @param config SDK配置
-   */
-  updateConfig(config: Partial<WxConfig>) {
-    Object.assign(this._config, config)
   }
 
   /**
@@ -74,9 +61,9 @@ export class WxSdk {
    * @returns {string} 返回
    */
   checkServer(body: CheckServerBody) {
-    if (!this._config.token) throw Error('config.token is required')
+    if (!this.config.token) throw Error('config.token is required')
     const { signature, echostr, timestamp, nonce } = body
-    const arr = [timestamp, nonce, this._config.token]
+    const arr = [timestamp, nonce, this.config.token]
     arr.sort()
     const shaStr = sha1(arr.join(''))
     if (shaStr === signature) {

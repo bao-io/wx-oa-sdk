@@ -19,7 +19,6 @@
 
 **方法:**
 
-- `updateConfig(config: Partial<WxConfig>): void` - 更新 SDK 的配置。
 - `checkServer(body: CheckServerBody): string` - 验证微信服务器，确保安全性。
 
 ### WxBaseApi 类
@@ -44,30 +43,30 @@
 
 **方法:**
 
-- `create(body: MenuBody): Promise<BaseResponse>` - 创建自定义菜单。
-- `query(): Promise<QueryMenuResponse>` - 查询当前菜单配置。
-- `delete(): Promise<BaseResponse>` - 删除当前菜单。
+- `createMenu(body: MenuBody): Promise<BaseResponse>` - 创建自定义菜单。
+- `getMenu(): Promise<QueryMenuResponse>` - 查询当前菜单配置。
+- `deleteMenu(): Promise<BaseResponse>` - 删除当前菜单。
 
 ### WxDraftApi 类
 
 **方法:**
 
-- `add(body: DraftBody): Promise<DraftBodyOrResponse>` - 新建草稿。
-- `get(body: DraftBodyOrResponse): Promise<GetDraftResponse>` - 获取草稿内容。
-- `delete(body: DraftBodyOrResponse): Promise<BaseResponse>` - 删除草稿。
-- `update(body: UpdateDraftBody): Promise<BaseResponse>` - 修改草稿。
+- `addDraft(body: DraftBody): Promise<DraftBodyOrResponse>` - 新建草稿。
+- `getDraft(body: DraftBodyOrResponse): Promise<GetDraftResponse>` - 获取草稿内容。
+- `deleteDraft(body: DraftBodyOrResponse): Promise<BaseResponse>` - 删除草稿。
+- `updateDraft(body: UpdateDraftBody): Promise<BaseResponse>` - 修改草稿。
 - `count(): Promise<GetDraftCountResponse>` - 获取草稿总数。
-- `batchget(body: BatchGetDraftBody): Promise<BatchGetDraftResponse>` - 获取草稿列表。
+- `batchGetDraft(body: BatchGetDraftBody): Promise<BatchGetDraftResponse>` - 获取草稿列表。
 
 ### WxPublishApi 类
 
 **方法:**
 
-- `submit(body: PublishSubmitBody): Promise<PublishSubmitResponse>` - 提交发布任务。
-- `get(body: GetPublishBody): Promise<GetPublishResponse>` - 查询发布状态。
-- `delete(body: DeletePublishBody): Promise<BaseResponse>` - 删除已发布内容。
+- `submitPublish(body: PublishSubmitBody): Promise<PublishSubmitResponse>` - 提交发布任务。
+- `getPublish(body: GetPublishBody): Promise<GetPublishResponse>` - 查询发布状态。
+- `deletePublish(body: DeletePublishBody): Promise<BaseResponse>` - 删除已发布内容。
 - `getArticleByArticleId(body: GetArticleBody): Promise<GetArticleByIdResponse>` - 通过 article_id 获取已发布文章。
-- `batchget(body: BatchGetArticleBody): Promise<GetArticleByIdResponse>` - 批量获取已发布文章列表。
+- `batchGetPublish(body: BatchGetArticleBody): Promise<GetArticleByIdResponse>` - 批量获取已发布文章列表。
 
 ### WxUserApi 类
 
