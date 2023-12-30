@@ -18,7 +18,7 @@ export interface WxConfig {
    */
   token?: string
   /**
-   *
+   * axios请求实例配置
    */
   axiosConfig?: Omit<AxiosRequestConfig, 'baseURL'>
 }
