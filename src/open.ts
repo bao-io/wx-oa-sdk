@@ -1,20 +1,16 @@
-import { WxConfig } from './types'
 import { BaseResponse } from './types/response'
 import { GetQuotaResponse, GetRidResponse } from './types/open'
-import { WxRequest } from './request'
+import http from './request'
+import config from './config'
 
-export class WxOpenApi extends WxRequest {
-  constructor(private config: WxConfig) {
-    super(config)
-  }
-
+export class WxOpenApi {
   /**
    * 清空api的调用quota
    * @returns {BaseResponse}
    */
   clear_quota() {
-    return this.AxiosPost<BaseResponse>(`/cgi-bin/clear_quota?access_token`, {
-      appid: this.config.appid
+    return http.post<BaseResponse>(`/cgi-bin/clear_quota?access_token`, {
+      appid: config.appid
     })
   }
 
@@ -24,7 +20,7 @@ export class WxOpenApi extends WxRequest {
    * @returns {GetQuotaResponse}
    */
   get_quota(cgi_path: string) {
-    return this.AxiosPost<GetQuotaResponse>(
+    return http.post<GetQuotaResponse>(
       `/cgi-bin/openapi/quota/get?access_token`,
       {
         cgi_path
@@ -38,12 +34,9 @@ export class WxOpenApi extends WxRequest {
    * @returns {GetRidResponse}
    */
   get_rid(rid: string) {
-    return this.AxiosPost<GetRidResponse>(
-      `/cgi-bin/openapi/rid/get?access_token`,
-      {
-        rid
-      }
-    )
+    return http.post<GetRidResponse>(`/cgi-bin/openapi/rid/get?access_token`, {
+      rid
+    })
   }
 
   /**
@@ -51,9 +44,9 @@ export class WxOpenApi extends WxRequest {
    * @returns {BaseResponse}
    */
   clearQuotaByAppSecret() {
-    return this.AxiosPost<BaseResponse>(`/cgi-bin/clear_quota/v2`, {
-      appid: this.config.appid,
-      appsecret: this.config.secret
+    return http.post<BaseResponse>(`/cgi-bin/clear_quota/v2`, {
+      appid: config.appid,
+      appsecret: config.secret
     })
   }
 }

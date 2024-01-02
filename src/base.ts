@@ -1,24 +1,20 @@
-import { WxConfig } from './types'
 import {
   CallbackCheckBody,
   CallbackCheckResponse,
   GetApiDomainIPResponse,
   GetTokenResponse
 } from './types/base'
-import { WxRequest } from './request'
+import config from './config'
+import http from './request'
 
-export class WxBaseApi extends WxRequest {
-  constructor(private config: WxConfig) {
-    super(config)
-  }
-
+export class WxBaseApi {
   /**
    * 获取 Access token
    * @returns {GetTokenResponse}
    */
   getAccessToken() {
-    return this.AxiosGet<GetTokenResponse>(
-      `/cgi-bin/token?grant_type=client_credential&appid=${this.config.appid}&secret=${this.config.secret}`
+    return http.get<GetTokenResponse>(
+      `/cgi-bin/token?grant_type=client_credential&appid=${config.appid}&secret=${config.secret}`
     )
   }
 
@@ -28,10 +24,10 @@ export class WxBaseApi extends WxRequest {
    * @returns {GetTokenResponse}
    */
   getStableAccessToken(force_refresh = false) {
-    return this.AxiosPost<GetTokenResponse>('/cgi-bin/stable_token', {
+    return http.post<GetTokenResponse>('/cgi-bin/stable_token', {
       grant_type: 'client_credential',
-      appid: this.config.appid,
-      secret: this.config.secret,
+      appid: config.appid,
+      secret: config.secret,
       force_refresh
     })
   }
@@ -41,7 +37,7 @@ export class WxBaseApi extends WxRequest {
    * @returns {GetApiDomainIPResponse}
    */
   getApiDomainIP() {
-    return this.AxiosGet<GetApiDomainIPResponse>(
+    return http.get<GetApiDomainIPResponse>(
       '/cgi-bin/get_api_domain_ip?access_token'
     )
   }
@@ -52,7 +48,7 @@ export class WxBaseApi extends WxRequest {
    * @returns {CallbackCheckResponse}
    */
   callbackCheck(body: CallbackCheckBody) {
-    return this.AxiosPost<CallbackCheckResponse>(
+    return http.post<CallbackCheckResponse>(
       '/cgi-bin/callback/check?access_token',
       body
     )

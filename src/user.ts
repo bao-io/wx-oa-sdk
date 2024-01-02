@@ -1,5 +1,3 @@
-import { WxRequest } from './request'
-import { WxConfig } from './types'
 import { BaseResponse } from './types/response'
 import {
   BackUserBody,
@@ -20,12 +18,12 @@ import {
   UpdateRemarkBody,
   UpdateTagBody
 } from './types/user'
+import http from './request'
 
-export class WxUserApi extends WxRequest {
+export class WxUserApi {
   tag: WxUserTagApi
-  constructor(config: WxConfig) {
-    super(config)
-    this.tag = new WxUserTagApi(config)
+  constructor() {
+    this.tag = new WxUserTagApi()
   }
 
   /**
@@ -34,7 +32,7 @@ export class WxUserApi extends WxRequest {
    * @returns {BaseResponse}
    */
   updateRemark(body: UpdateRemarkBody) {
-    return this.post<BaseResponse>(
+    return http.post<BaseResponse>(
       `/cgi-bin/user/info/updateremark?access_token`,
       body
     )
@@ -47,7 +45,7 @@ export class WxUserApi extends WxRequest {
    * @returns {GetUserInfoResponse}
    */
   info(openid: string, lang: 'zh_CN' | 'zh_TW' | 'en' = 'zh_CN') {
-    return this.AxiosGet<GetUserInfoResponse>(
+    return http.get<GetUserInfoResponse>(
       `/cgi-bin/user/info?access_token&openid=${openid}&lang=${lang}`
     )
   }
@@ -58,7 +56,7 @@ export class WxUserApi extends WxRequest {
    * @returns {GetBatchUserInfoResponse}
    */
   batchInfo(body: BatchUserInfoBody) {
-    return this.AxiosPost<GetBatchUserInfoResponse>(
+    return http.post<GetBatchUserInfoResponse>(
       `/cgi-bin/user/info/batchget?access_token`,
       body
     )
@@ -70,7 +68,7 @@ export class WxUserApi extends WxRequest {
    * @returns {GetUserListResponse}
    */
   getUserList(next_openid = '') {
-    return this.AxiosGet<GetUserListResponse>(
+    return http.get<GetUserListResponse>(
       `/cgi-bin/user/get?access_token&next_openid=${next_openid}`
     )
   }
@@ -81,7 +79,7 @@ export class WxUserApi extends WxRequest {
    * @returns {GetUserListResponse}
    */
   getUserBackList(body: GetUserBackListBody) {
-    return this.AxiosPost<GetUserListResponse>(
+    return http.post<GetUserListResponse>(
       `/cgi-bin/tags/members/getblacklist?access_token`,
       body
     )
@@ -93,7 +91,7 @@ export class WxUserApi extends WxRequest {
    * @returns {BaseResponse}
    */
   batchBackUser(body: BackUserBody) {
-    return this.AxiosPost<BaseResponse>(
+    return http.post<BaseResponse>(
       `/cgi-bin/tags/members/batchblacklist?access_token`,
       body
     )
@@ -105,25 +103,21 @@ export class WxUserApi extends WxRequest {
    * @returns {BaseResponse}
    */
   batchUnBackUser(body: BackUserBody) {
-    return this.AxiosPost<BaseResponse>(
+    return http.post<BaseResponse>(
       `/cgi-bin/tags/members/batchunblacklist?access_token`,
       body
     )
   }
 }
 
-class WxUserTagApi extends WxRequest {
-  constructor(config: WxConfig) {
-    super(config)
-  }
-
+class WxUserTagApi {
   /**
    * 创建标签
    * @param {CreateTagBody} body 请求体
    * @returns {CreateTagResponse}
    */
   create_tag(body: CreateTagBody) {
-    return this.AxiosPost<CreateTagResponse>(
+    return http.post<CreateTagResponse>(
       `/cgi-bin/tags/create?access_token`,
       body
     )
@@ -134,7 +128,7 @@ class WxUserTagApi extends WxRequest {
    * @returns {GetTagsResponse}
    */
   get_tags() {
-    return this.AxiosGet<GetTagsResponse>(`/cgi-bin/tags/get?access_token`)
+    return http.get<GetTagsResponse>(`/cgi-bin/tags/get?access_token`)
   }
 
   /**
@@ -143,10 +137,7 @@ class WxUserTagApi extends WxRequest {
    * @returns {BaseResponse}
    */
   update_tag(body: UpdateTagBody) {
-    return this.AxiosPost<BaseResponse>(
-      `/cgi-bin/tags/update?access_token`,
-      body
-    )
+    return http.post<BaseResponse>(`/cgi-bin/tags/update?access_token`, body)
   }
 
   /**
@@ -155,10 +146,7 @@ class WxUserTagApi extends WxRequest {
    * @returns {BaseResponse}
    */
   delete_tag(body: DeleteTagBody) {
-    return this.AxiosPost<BaseResponse>(
-      `/cgi-bin/tags/delete?access_token`,
-      body
-    )
+    return http.post<BaseResponse>(`/cgi-bin/tags/delete?access_token`, body)
   }
 
   /**
@@ -167,7 +155,7 @@ class WxUserTagApi extends WxRequest {
    * @returns {GetUserByTagResponse}
    */
   getUserByTagId(body: GetUserByTagBody) {
-    return this.AxiosPost<GetUserByTagResponse>(
+    return http.post<GetUserByTagResponse>(
       `/cgi-bin/user/tag/get?access_token`,
       body
     )
@@ -179,7 +167,7 @@ class WxUserTagApi extends WxRequest {
    * @returns {BaseResponse}
    */
   batchTagging(body: BatchTagBody) {
-    return this.AxiosPost<BaseResponse>(
+    return http.post<BaseResponse>(
       `/cgi-bin/tags/members/batchtagging?access_token`,
       body
     )
@@ -191,7 +179,7 @@ class WxUserTagApi extends WxRequest {
    * @returns {BaseResponse}
    */
   batchUnTagging(body: BatchTagBody) {
-    return this.AxiosPost<BaseResponse>(
+    return http.post<BaseResponse>(
       `/cgi-bin/tags/members/batchuntagging?access_token`,
       body
     )
@@ -203,7 +191,7 @@ class WxUserTagApi extends WxRequest {
    * @returns {GetTagByOpenIdResponse}
    */
   getTagByOpenId(body: GetTagByOpenIdBody) {
-    return this.AxiosPost<GetTagByOpenIdResponse>(
+    return http.post<GetTagByOpenIdResponse>(
       `/cgi-bin/tags/getidlist?access_token`,
       body
     )

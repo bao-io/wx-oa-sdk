@@ -57,3 +57,6 @@ jobs:
 
       - name: Test
         run: pnpm test
+        env:
+          WX_APPID: ${{secrets.WX_APPID}}
+          WX_SECRET: ${{secrets.WX_SECRET}}

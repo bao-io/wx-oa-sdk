@@ -1,5 +1,3 @@
-import { AxiosRequestConfig } from 'axios'
-
 export interface WxConfig {
   /**
    * 微信公众号appid
@@ -17,10 +15,6 @@ export interface WxConfig {
    * 微信公众号后台配置的token，用作生成签名
    */
   token?: string
-  /**
-   * axios请求实例配置
-   */
-  axiosConfig?: Omit<AxiosRequestConfig, 'baseURL'>
 }
 
 export interface CheckServerBody {

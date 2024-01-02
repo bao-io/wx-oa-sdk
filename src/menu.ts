@@ -1,23 +1,15 @@
-import { WxRequest } from './request'
-import { WxConfig } from './types'
 import { MenuBody, QueryMenuResponse } from './types/menu'
 import { BaseResponse } from './types/response'
+import http from './request'
 
-export class WxMenuApi extends WxRequest {
-  constructor(config: WxConfig) {
-    super(config)
-  }
-
+export class WxMenuApi {
   /**
    * 创建菜单接口
    * @param {MenuBody} body 请求体
    * @returns {BaseResponse}
    */
   createMenu(body: MenuBody) {
-    return this.AxiosPost<BaseResponse>(
-      `/cgi-bin/menu/create?access_token`,
-      body
-    )
+    return http.post<BaseResponse>(`/cgi-bin/menu/create?access_token`, body)
   }
 
   /**
@@ -25,7 +17,7 @@ export class WxMenuApi extends WxRequest {
    * @returns {QueryMenuResponse}
    */
   getMenu() {
-    return this.AxiosGet<QueryMenuResponse>(
+    return http.get<QueryMenuResponse>(
       `/cgi-bin/get_current_selfmenu_info?access_token`
     )
   }
@@ -35,6 +27,6 @@ export class WxMenuApi extends WxRequest {
    * @returns {BaseResponse}
    */
   deleteMenu() {
-    return this.AxiosDelete<BaseResponse>(`/cgi-bin/menu/delete?access_token`)
+    return http.delete<BaseResponse>(`/cgi-bin/menu/delete?access_token`)
   }
 }

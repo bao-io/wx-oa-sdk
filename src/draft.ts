@@ -1,4 +1,3 @@
-import { WxConfig } from './types'
 import { BaseResponse } from './types/response'
 import {
   DraftBodyOrResponse,
@@ -9,20 +8,16 @@ import {
   BatchGetDraftBody,
   BatchGetDraftResponse
 } from './types/draft'
-import { WxRequest } from './request'
+import http from './request'
 
-export class WxDraftApi extends WxRequest {
-  constructor(config: WxConfig) {
-    super(config)
-  }
-
+export class WxDraftApi {
   /**
    * 新建草稿
    * @param {DraftBody} body 请求体
    * @returns {DraftBodyOrResponse}
    */
   addDraft(body: DraftBody) {
-    return this.AxiosPost<DraftBodyOrResponse>(
+    return http.post<DraftBodyOrResponse>(
       `/cgi-bin/draft/add?access_token`,
       body
     )
@@ -34,10 +29,7 @@ export class WxDraftApi extends WxRequest {
    * @returns {GetDraftResponse}
    */
   getDraft(body: DraftBodyOrResponse) {
-    return this.AxiosPost<GetDraftResponse>(
-      `/cgi-bin/draft/get?access_token`,
-      body
-    )
+    return http.post<GetDraftResponse>(`/cgi-bin/draft/get?access_token`, body)
   }
 
   /**
@@ -46,10 +38,7 @@ export class WxDraftApi extends WxRequest {
    * @returns {BaseResponse}
    */
   deleteDraft(body: DraftBodyOrResponse) {
-    return this.AxiosPost<BaseResponse>(
-      `/cgi-bin/draft/delete?access_token`,
-      body
-    )
+    return http.post<BaseResponse>(`/cgi-bin/draft/delete?access_token`, body)
   }
 
   /**
@@ -58,10 +47,7 @@ export class WxDraftApi extends WxRequest {
    * @returns {BaseResponse}
    */
   updateDraft(body: UpdateDraftBody) {
-    return this.AxiosPost<BaseResponse>(
-      `/cgi-bin/draft/update?access_token`,
-      body
-    )
+    return http.post<BaseResponse>(`/cgi-bin/draft/update?access_token`, body)
   }
 
   /**
@@ -69,9 +55,7 @@ export class WxDraftApi extends WxRequest {
    * @returns {GetDraftCountResponse}
    */
   count() {
-    return this.AxiosGet<GetDraftCountResponse>(
-      `/cgi-bin/draft/count?access_token`
-    )
+    return http.get<GetDraftCountResponse>(`/cgi-bin/draft/count?access_token`)
   }
 
   /**
@@ -80,7 +64,7 @@ export class WxDraftApi extends WxRequest {
    * @returns {BatchGetDraftResponse}
    */
   batchGetDraft(body: BatchGetDraftBody) {
-    return this.AxiosPost<BatchGetDraftResponse>(
+    return http.post<BatchGetDraftResponse>(
       `/cgi-bin/draft/batchget?access_token`,
       body
     )

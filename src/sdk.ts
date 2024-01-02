@@ -8,6 +8,7 @@ import { WxPublishApi } from './publish'
 import { WxUserApi } from './user'
 import { version } from '../package.json'
 import { WxMsgApi } from './msg'
+import config from './config'
 
 export class WxSdk {
   /**
@@ -42,17 +43,30 @@ export class WxSdk {
    * 版本号
    */
   readonly version: string
-  constructor(private readonly config: WxConfig) {
-    if (!config.appid) throw Error('config.appid is required')
-    if (!config.secret) throw Error('config.secret is required')
+  constructor(_config: WxConfig) {
+    if (!_config.appid) throw Error('config.appid is required')
+    if (!_config.secret) throw Error('config.secret is required')
     this.version = version
-    this.base = new WxBaseApi(config)
-    this.open = new WxOpenApi(config)
-    this.menu = new WxMenuApi(config)
-    this.draft = new WxDraftApi(config)
-    this.publish = new WxPublishApi(config)
-    this.user = new WxUserApi(config)
+    Object.assign(config, _config)
+    this.base = new WxBaseApi()
+    this.open = new WxOpenApi()
+    this.menu = new WxMenuApi()
+    this.draft = new WxDraftApi()
+    this.publish = new WxPublishApi()
+    this.user = new WxUserApi()
     this.msg = new WxMsgApi()
+  }
+
+  get config() {
+    return config
+  }
+
+  /**
+   * 更新配置
+   * @param _config 配置
+   */
+  updateConfig(_config: Partial<WxConfig>) {
+    Object.assign(config, _config)
   }
 
   /**
@@ -61,9 +75,9 @@ export class WxSdk {
    * @returns {string} 返回
    */
   checkServer(body: CheckServerBody) {
-    if (!this.config.token) throw Error('config.token is required')
+    if (!config.token) throw Error('config.token is required')
     const { signature, echostr, timestamp, nonce } = body
-    const arr = [timestamp, nonce, this.config.token]
+    const arr = [timestamp, nonce, config.token]
     arr.sort()
     const shaStr = sha1(arr.join(''))
     if (shaStr === signature) {
