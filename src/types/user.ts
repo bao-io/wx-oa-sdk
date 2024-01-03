@@ -183,7 +183,7 @@ export interface GetUserInfoResponse
     Partial<SubscribeUser> {}
 
 export interface GetBatchUserInfoResponse extends Partial<BaseResponse> {
-  user_info_list?: User
+  user_info_list?: User[]
 }
 
 export interface GetUserListResponse
