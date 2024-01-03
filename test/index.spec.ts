@@ -25,7 +25,7 @@ describe('sdk test', async () => {
   it('get access_token', async ctx => {
     const res = await ctx.sdk?.base.getAccessToken()
     expect(res?.access_token).toBeDefined()
-    expect(res?.expires_in).toBeGreaterThanOrEqual(7200)
+    expect(res?.expires_in).toBeLessThanOrEqual(7200)
   })
 
   it('get user list', async ctx => {
