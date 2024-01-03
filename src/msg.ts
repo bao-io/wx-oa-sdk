@@ -46,10 +46,10 @@ export class WxMsgApi {
 
   /**
    * 把js对象转成xml字符串，用于回复微信服务器
-   * @param {WxMsgSchema} obj
+   * @param {WxMsgSchema | object} obj
    * @returns {string}
    */
-  parseObj2XmlStr(obj: WxMsgSchema) {
+  parseObj2XmlStr(obj: WxMsgSchema | object) {
     return new Builder({ rootName: 'xml', cdata: true }).buildObject(obj)
   }
 }
