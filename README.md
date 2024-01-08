@@ -37,7 +37,3 @@ sdk.user.xxxx
 // 处理微信公众号的基础消息。
 sdk.msg.xxxx
 ```
-
-## License
-
-[MIT](./LICENSE) License © 2023-PRESENT [BaoBao](https://github.com/bao-io)
