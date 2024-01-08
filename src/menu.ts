@@ -27,6 +27,6 @@ export class WxMenuApi {
    * @returns {BaseResponse}
    */
   deleteMenu() {
-    return http.delete<BaseResponse>(`/cgi-bin/menu/delete?access_token`)
+    return http.get<BaseResponse>(`/cgi-bin/menu/delete?access_token`)
   }
 }
